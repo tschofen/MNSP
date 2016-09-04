@@ -7,6 +7,7 @@ var fs = require('fs');
 var formidable = require("formidable");
 var nodemailer = require('nodemailer');
 var schedule = require('node-schedule');
+var path = require('path');
 var prep = require('./setData');
 var view = require('./renderResults');
 
@@ -228,9 +229,9 @@ if(process.env.SCHEDULED_PARKS && process.env.SCHEDULED_PARKS != ""){
 		var req, res;
 		var d = new Date();
 		if(d.getDay() < 5){
-		  d.setDate(d.getDate() + (5 - d.getDay()));
+			d.setDate(d.getDate() + (5 - d.getDay()));
 		} else if(d.getDay() > 5){
-		  d.setDate(d.getDate() + 6);
+			d.setDate(d.getDate() + 6);
 		}
 		var params = {
 			week: 4,
@@ -248,11 +249,50 @@ if(process.env.SCHEDULED_PARKS && process.env.SCHEDULED_PARKS != ""){
 
 //Create a server
 var server = http.createServer(function(req, res){
-	//if (req.method.toLowerCase() == 'get') {
-			handleRequest(req,res);
-	//} else if (req.method.toLowerCase() == 'post') {
-	//    processAllFieldsOfTheForm(req, res);
-	//}
+		// parse url
+	var request = url.parse(req.url, true);
+	var action = request.pathname;
+
+	if (action === '/') {
+		handleRequest(req,res);
+	} else {
+		console.log('filt', path.join(__dirname, action).split('%20').join(' '))
+		var filePath = path.join(__dirname, action).split('%20').join(' ');
+		fs.exists(filePath, function (exists) {
+			if (!exists) {
+				// 404 missing files
+				res.writeHead(404, {'Content-Type': 'text/plain' });
+				res.end('404 Not Found');
+				return;
+			}
+			// set the content type
+			var ext = path.extname(action);
+			var contentType = 'text/plain';
+			if (ext === '.gif') {
+				 contentType = 'image/gif'
+			} else if (ext === '.png') {
+				 contentType = 'image/png'
+			}
+			console.log('type', contentType)
+			res.writeHead(200, {'Content-Type': contentType });
+			// stream the file
+			//fs.createReadStream(filePath, 'utf-8').pipe(res);
+			// This line opens the file as a readable stream
+			var readStream = fs.createReadStream(filePath);
+
+			// This will wait until we know the readable stream is actually valid before piping
+			readStream.on('open', function () {
+				// This just pipes the read stream to the response object (which goes to the client)
+				readStream.pipe(res);
+			});
+
+			// This catches any errors that happen while creating the readable stream (usually invalid names)
+			readStream.on('error', function(err) {
+				res.end(err);
+			});
+		});
+	}
+
 });
 
 //Lets start our server
