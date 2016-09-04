@@ -10,8 +10,8 @@ module.exports = {
       info.toDay = info.toDate.getDay();
       var dateRange = days[info.day] + ' ' + info.date + ' - ' + days[info.toDay] + ' ' + (info.toDate.getMonth()+1)+'/'+ info.toDate.getDate() +'/'+info.toDate.getFullYear();
       if(list.length > 0){
-        var url = info.uri || info.uri.href;
-        html = '<h3><a target="_blank" href="'+ url +'">' + dateRange + ' — <span class="site-count"><span class="badge badge-primary">' + list.length +'</span> available sites</span></a></h3>';
+        //var url = info.uri || info.uri.href;
+        html = '<h3><a target="_blank" href="'+ info.exturl +'">' + dateRange + ' — <span class="site-count"><span class="badge badge-primary">' + list.length +'</span> available sites</span></a></h3>';
         html += '<ul class="list list-inline">';
 
         list.forEach(function(item){

@@ -76,6 +76,8 @@ function outputData(request, response, html){
 				day: d.getDay(),
 				nights: Number(fields.nights)
 		};
+		//url params are getting clobbert
+		options.exturl = options.uri;
 
 		var urls = [Object.assign({}, options)];
 
@@ -87,6 +89,7 @@ function outputData(request, response, html){
 			options.loc = fields.park.split("|")[1];
 			options.date = (d.getMonth()+1)+'/'+ d.getDate() +'/'+d.getFullYear();
 			options.day = d.getDay();
+			options.exturl = options.uri;
 			//clone the object
 			urls.push(rp(Object.assign({}, options)));
 		}
