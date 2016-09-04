@@ -2,17 +2,13 @@
 var http = require('http');
 var cheerio = require("cheerio");
 var request = require("request");
-var queue = require('queue-async');
-var url = require("url"); 
 var rp = require('request-promise');
 var fs = require('fs');
 var formidable = require("formidable");
-var util = require('util');
 var prep = require('./setData');
 
 //Lets define a port we want to listen to
 const PORT=8082;
-q = queue(10);
 
 const BASE = 'https://reservations.usedirect.com/MinnesotaWebHome/Accessible/AvailableUnitsADA.aspx?';
 //var LISTING = BASE + 'place_id=70&arrivalDate=9/8/2016&nights=2'; 
