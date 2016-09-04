@@ -1,15 +1,21 @@
 <!DOCTYPE html>
    <html>
       <head>
+         <meta charset="utf-8"/>
+         <title>MNSP</title>
          <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
          <style>
             .search-form{margin-top: 1em}
             .simple-field{width: auto}
             h2 {font-size: 22px}
             h3 {font-size: 18px}
-            h3 a{font-size: 15px;}
+            h3 a, h3.nix{font-size: 15px;}
+            .nix{color: #bbb;}
+            /*h3 a:after{content: "👍"; font-size: 12px;margin-left: 5px;}
+            .nix:after{content: "👎"; font-size: 12px;margin-left: 5px;}*/
             ul.list-inline>li:after{content: ", ";}
             ul.list-inline>li:last-child:after{content: "";}
+            .error{color: red;}
          </style>
       </head>
       <div class="container search-form">
@@ -91,7 +97,7 @@
                <input type="text" id="startDate" name="startDate" placeholder="9/14/2016" value="|startDate|" size="10" />
             </label>
             <label class="simple-field"># of nights:
-               <input type="number" id="length" name="length" placeholder="Number of nights" value="|length|" min="1" max="14" />
+               <input type="number" id="nights" name="nights" placeholder="Number of nights" value="|nights|" min="1" max="14" />
             </label>
             <label class="simple-field"># of weeks:
                <input type="number" id="week" name="week" placeholder="Number of weeks to check" value="|week|" min="1" max="14" />
@@ -99,7 +105,4 @@
             <input type="submit" value="Fetch" class="btn btn-primary" />
          </fieldset>
          </form>
-      </div>
-      <div class="container">
-         <!-- RESULTS -->
       </div>

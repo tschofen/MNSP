@@ -41,9 +41,30 @@ function outputData(request, response, html){
 	form.parse(request, function (err, fields) {	
 		var cheerio = require('cheerio'); // Basically jQuery for node.js
 
+		response.write(prep.set(html, fields)); //fill in the form fields from previous request
+		html = '<div class="container"><h2>Search Results: '+fields.park.split("|")[1]+'</h2><!-- RESULTS --></div>';
+
+		var formErrors = [];
+		//bad form entries
+		if(fields.startDate == ""){
+			formErrors.push("When, oh when!");
+		}
+		if(fields.nights < 1){
+			fields.nights = "1";
+		}
+		if(fields.week < 1){
+			fields.week = "1"
+		}
+		if(formErrors.length > 0){
+			html = prep.setResults(html, formErrors.join(""));
+			response.write(html);
+			response.end();
+			return;
+		}
 		var d = new Date(fields.startDate);
+
 		var options = {
-				uri: BASE + 'place_id=' + fields.park.split("|")[0] + '&arrivalDate=' + fields.startDate + '&nights=' + fields.length,
+				uri: BASE + 'place_id=' + fields.park.split("|")[0] + '&arrivalDate=' + fields.startDate + '&nights=' + fields.nights,
 				headers: {
 					'User-Agent': 'request'
 				},
@@ -52,7 +73,8 @@ function outputData(request, response, html){
 				},
 				loc: fields.park.split("|")[1],
 				date: fields.startDate,
-				day: d.getDay()
+				day: d.getDay(),
+				nights: Number(fields.nights)
 		};
 
 		var urls = [Object.assign({}, options)];
@@ -61,7 +83,7 @@ function outputData(request, response, html){
 		for (var i = fields.week - 1; i > 0; i--) {
 			d.setDate(d.getDate() + 7);
 			var nextDate = (d.getMonth()+1)+'/'+ d.getDate() +'/'+d.getFullYear();
-			options.uri = BASE + 'place_id=' + fields.park.split("|")[0] + '&arrivalDate=' + nextDate + '&nights=' + fields.length;
+			options.uri = BASE + 'place_id=' + fields.park.split("|")[0] + '&arrivalDate=' + nextDate + '&nights=' + fields.nights;
 			options.loc = fields.park.split("|")[1];
 			options.date = (d.getMonth()+1)+'/'+ d.getDate() +'/'+d.getFullYear();
 			options.day = d.getDay();
@@ -70,6 +92,8 @@ function outputData(request, response, html){
 		}
 		// console.log('options', urls);
 
+
+		/*now loop through all the urls and get the data*/
 		var listings = [];
 
 		/*process all calls in parallel*/
@@ -81,19 +105,25 @@ function outputData(request, response, html){
 				$('.UnitresultDiv').find('div > a').each(function (index, element) {
 					list.push($(element).text());
 				});
-				listings.push(view.render(list, options));
+				listings.push(view.render(options, list));
 				callback(options);
 			})
 			.catch(function (err) {
 				// Crawling failed or Cheerio choked...
-				console.log('trouble', err);
-				//response.write(html + '<h2 style="color:red">Something\' messed up</h2>');
-				//response.end();
+				console.log('trouble', err.name, err.statusCode); //full text: err.error
+				var os = {loc: options.loc, day: options.day, date: options.date};
+				listings.push(view.render(os));
+				results.push({}); //results don't increase without this. Not sure why
+				//console.log('results count', results.length);
+				if(results.length == urls.length){
+					html = prep.setResults(html, listings.join(""));
+					response.write(html);
+				}
 			});
 		}
 		function final() { 
 			console.log('Done', results.length);
-			html = prep.set(html, fields, '<h2>Search Results</h2>' + listings.join(""));
+			html = prep.setResults(html, listings.join(""));
 			response.write(html);
 			response.end();
 		}
