@@ -8,6 +8,8 @@ var formidable = require("formidable");
 var prep = require('./setData');
 var view = require('./renderResults');
 
+const url = require('url');
+
 //Lets define a port we want to listen to
 const PORT=8082;
 
@@ -16,6 +18,12 @@ const BASE = 'https://reservations.usedirect.com/MinnesotaWebHome/Accessible/Ava
 
 
 function handleRequest(request, response) {
+	var info = url.parse(request.url, true).query;
+	if(!info.lwt || info.lwt != 'rocksandtrees'){
+		response.writeHead(401);
+		response.end('No access for you');
+		return;
+	}
 	fs.readFile('form.html', function (err, data) {
 			response.writeHead(200, {
 				'Content-Type': 'text/html'
