@@ -8,8 +8,9 @@
          <style>
             .search-form{margin-top: 1em}
             .simple-field{width: auto}
-            h2 {font-size: 22px}
-            h3 {font-size: 18px}
+            h1 {font-size: 24px; color: white}
+            h2 {font-size: 20px}
+            h3 {font-size: 16px}
             h3 a, h3.nix{font-size: 15px;}
             .nix{color: #bbb;}
             /*h3 a:after{content: "👍"; font-size: 12px;margin-left: 5px;}
@@ -17,93 +18,106 @@
             ul.list-inline>li:after{content: ", ";}
             ul.list-inline>li:last-child:after{content: "";}
             .error{color: red;}
+            .btn{background-color: indigo;color: white;}
+            @media (max-width: 768px) {
+                .btn {
+                    width:100%;
+                }
+            }
+            .navbar{border-radius: 0;background-color: indigo}
          </style>
       </head>
+      <div class="navbar">
+         <div class="container">
+            <h1>Search for Camp Sites</h1>
+         </div>
+      </div>
       <div class="container search-form">
-         <form class="form" action="" method="post">
-         <fieldset>
-         <legend><h1>Search for Camp Sites</h1></legend>
-            <label for="park">State Park:
-            <select name="park" id="park" title="Select a Park" required="required">
-               <option value="92|Afton State Park">Afton</option>
-               <option value="108|Banning State Park">Banning</option>
-               <option value="136|Bear Head Lake State Park">Bear Head Lake</option>
-               <option value="109|Beaver Creek Valley State Park">Beaver Creek Valley</option>
-               <option value="110|Big Bog State Recreation Area">Big Bog State Recreation Area</option>
-               <option value="111|Big Stone Lake State Park">Big Stone Lake</option>
-               <option value="66|Blue Mounds State Park">Blue Mounds</option>
-               <option value="112|Buffalo River State Park">Buffalo River</option>
-               <option value="132|Camden State Park">Camden</option>
-               <option value="113|Carley State Park">Carley</option>
-               <option value="68|Cascade River State Park">Cascade River</option>
-               <option value="69|Charles A. Lindbergh State Park">Charles A. Lindbergh</option>
-               <option value="114|Crow Wing State Park">Crow Wing</option>
-               <option value="81|Cuyuna Country State Recreation Area">Cuyuna Country State Recreation Area</option>
-               <option value="130|Father Hennepin State Park">Father Hennepin</option>
-               <option value="115|Flandrau State Park">Flandrau</option>
-               <option value="95|Forestville Mystery Cave State Park">Forestville Mystery Cave</option>
-               <option value="116|Fort Ridgely State Park">Fort Ridgely</option>
-               <option value="86|Franz Jevne State Park">Franz Jevne</option>
-               <option value="75|Frontenac State Park">Frontenac</option>
-               <option value="117|George H. Crosby Manitou State Park">George H. Crosby Manitou</option>
-               <option value="89|Glacial Lakes State Park">Glacial Lakes</option>
-               <option value="76|Glendalough State Park">Glendalough</option>
-               <option value="118|Gooseberry Falls State Park">Gooseberry Falls</option>
-               <option value="77|Great River Bluffs State Park">Great River Bluffs</option>
-               <option value="119|Hayes Lake State Park">Hayes Lake</option>
-               <option value="96|Interstate State Park">Interstate</option>
-               <option value="78|Itasca State Park">Itasca</option>
-               <option value="121|Jay Cooke State Park">Jay Cooke</option>
-               <option value="122|Judge C. R. Magney State Park">Judge C. R. Magney</option>
-               <option value="79|Kilen Woods State Park">Kilen Woods</option>
-               <option value="137|La Salle Lake State Recreation Area">La Salle Lake State Recreation Area</option>
-               <option value="123|Lac qui Parle State Park">Lac qui Parle</option>
-               <option value="124|Lake Bemidji State Park">Lake Bemidji</option>
-               <option value="125|Lake Bronson State Park">Lake Bronson</option>
-               <option value="126|Lake Carlos State Park">Lake Carlos</option>
-               <option value="90|Lake Louise State Park">Lake Louise</option>
-               <option value="80|Lake Maria State Park">Lake Maria</option>
-               <option value="91|Lake Shetek State Park">Lake Shetek</option>
-               <option value="102|Lake Vermilion-Soudan Underground Mine State Park">Lake Vermilion-Soudan Underground Mine</option>
-               <option value="127|Maplewood State Park">Maplewood</option>
-               <option value="88|McCarthy Beach State Park">McCarthy Beach</option>
-               <option value="107|Mille Lacs Kathio State Park">Mille Lacs Kathio</option>
-               <option value="131|Minneopa State Park">Minneopa</option>
-               <option value="129|Minnesota Valley State Recreation Area">Minnesota Valley State Recreation Area</option>
-               <option value="97|Monson Lake State Park">Monson Lake</option>
-               <option value="98|Moose Lake State Park">Moose Lake</option>
-               <option value="134|Myre-Big Island State Park">Myre-Big Island</option>
-               <option value="133|Nerstrand Big Woods State Park">Nerstrand Big Woods</option>
-               <option value="99|Old Mill State Park">Old Mill</option>
-               <option value="71|Red River State Recreation Area">Red River State Recreation Area</option>
-               <option value="74|Rice Lake State Park">Rice Lake</option>
-               <option value="73|Sakatah Lake State Park">Sakatah Lake</option>
-               <option value="100|Savanna Portage State Park">Savanna Portage</option>
-               <option value="93|Scenic State Park">Scenic</option>
-               <option value="101|Schoolcraft State Park">Schoolcraft</option>
-               <option value="72|Sibley State Park">Sibley</option>
-               <option value="128|Split Rock Creek State Park">Split Rock Creek</option>
-               <option value="70|>Split Rock Lighthouse State Park">Split Rock Lighthouse</option>
-               <option value="67|St. Croix State Park">St. Croix</option>
-               <option value="103|Temperance River State Park">Temperance River</option>
-               <option value="104|Tettegouche State Park">Tettegouche</option>
-               <option value="65|Upper Sioux Agency State Park">Upper Sioux Agency</option>
-               <option value="105|Whitewater State Park">Whitewater</option>
-               <option value="106|Wild River State Park">Wild River</option>
-               <option value="94|William O'Brien State Park">William O'Brien</option>
-               <option value="135|Zippel Bay State Park">Zippel Bay</option>
-            </select>
-            </label>
-            <label class="simple-field">Start Date:
+         <form class="form-inline" action="" method="post">
+            <div class="form-group">
+               <label for="park">State Park:</label>
+               <select name="park" id="park" title="Select a Park" required="required">
+                  <option value="92|Afton State Park">Afton</option>
+                  <option value="108|Banning State Park">Banning</option>
+                  <option value="136|Bear Head Lake State Park">Bear Head Lake</option>
+                  <option value="109|Beaver Creek Valley State Park">Beaver Creek Valley</option>
+                  <option value="110|Big Bog State Recreation Area">Big Bog State Recreation Area</option>
+                  <option value="111|Big Stone Lake State Park">Big Stone Lake</option>
+                  <option value="66|Blue Mounds State Park">Blue Mounds</option>
+                  <option value="112|Buffalo River State Park">Buffalo River</option>
+                  <option value="132|Camden State Park">Camden</option>
+                  <option value="113|Carley State Park">Carley</option>
+                  <option value="68|Cascade River State Park">Cascade River</option>
+                  <option value="69|Charles A. Lindbergh State Park">Charles A. Lindbergh</option>
+                  <option value="114|Crow Wing State Park">Crow Wing</option>
+                  <option value="81|Cuyuna Country State Recreation Area">Cuyuna Country State Recreation Area</option>
+                  <option value="130|Father Hennepin State Park">Father Hennepin</option>
+                  <option value="115|Flandrau State Park">Flandrau</option>
+                  <option value="95|Forestville Mystery Cave State Park">Forestville Mystery Cave</option>
+                  <option value="116|Fort Ridgely State Park">Fort Ridgely</option>
+                  <option value="86|Franz Jevne State Park">Franz Jevne</option>
+                  <option value="75|Frontenac State Park">Frontenac</option>
+                  <option value="117|George H. Crosby Manitou State Park">George H. Crosby Manitou</option>
+                  <option value="89|Glacial Lakes State Park">Glacial Lakes</option>
+                  <option value="76|Glendalough State Park">Glendalough</option>
+                  <option value="118|Gooseberry Falls State Park">Gooseberry Falls</option>
+                  <option value="77|Great River Bluffs State Park">Great River Bluffs</option>
+                  <option value="119|Hayes Lake State Park">Hayes Lake</option>
+                  <option value="96|Interstate State Park">Interstate</option>
+                  <option value="78|Itasca State Park">Itasca</option>
+                  <option value="121|Jay Cooke State Park">Jay Cooke</option>
+                  <option value="122|Judge C. R. Magney State Park">Judge C. R. Magney</option>
+                  <option value="79|Kilen Woods State Park">Kilen Woods</option>
+                  <option value="137|La Salle Lake State Recreation Area">La Salle Lake State Recreation Area</option>
+                  <option value="123|Lac qui Parle State Park">Lac qui Parle</option>
+                  <option value="124|Lake Bemidji State Park">Lake Bemidji</option>
+                  <option value="125|Lake Bronson State Park">Lake Bronson</option>
+                  <option value="126|Lake Carlos State Park">Lake Carlos</option>
+                  <option value="90|Lake Louise State Park">Lake Louise</option>
+                  <option value="80|Lake Maria State Park">Lake Maria</option>
+                  <option value="91|Lake Shetek State Park">Lake Shetek</option>
+                  <option value="102|Lake Vermilion-Soudan Underground Mine State Park">Lake Vermilion-Soudan Underground Mine</option>
+                  <option value="127|Maplewood State Park">Maplewood</option>
+                  <option value="88|McCarthy Beach State Park">McCarthy Beach</option>
+                  <option value="107|Mille Lacs Kathio State Park">Mille Lacs Kathio</option>
+                  <option value="131|Minneopa State Park">Minneopa</option>
+                  <option value="129|Minnesota Valley State Recreation Area">Minnesota Valley State Recreation Area</option>
+                  <option value="97|Monson Lake State Park">Monson Lake</option>
+                  <option value="98|Moose Lake State Park">Moose Lake</option>
+                  <option value="134|Myre-Big Island State Park">Myre-Big Island</option>
+                  <option value="133|Nerstrand Big Woods State Park">Nerstrand Big Woods</option>
+                  <option value="99|Old Mill State Park">Old Mill</option>
+                  <option value="71|Red River State Recreation Area">Red River State Recreation Area</option>
+                  <option value="74|Rice Lake State Park">Rice Lake</option>
+                  <option value="73|Sakatah Lake State Park">Sakatah Lake</option>
+                  <option value="100|Savanna Portage State Park">Savanna Portage</option>
+                  <option value="93|Scenic State Park">Scenic</option>
+                  <option value="101|Schoolcraft State Park">Schoolcraft</option>
+                  <option value="72|Sibley State Park">Sibley</option>
+                  <option value="128|Split Rock Creek State Park">Split Rock Creek</option>
+                  <option value="70|>Split Rock Lighthouse State Park">Split Rock Lighthouse</option>
+                  <option value="67|St. Croix State Park">St. Croix</option>
+                  <option value="103|Temperance River State Park">Temperance River</option>
+                  <option value="104|Tettegouche State Park">Tettegouche</option>
+                  <option value="65|Upper Sioux Agency State Park">Upper Sioux Agency</option>
+                  <option value="105|Whitewater State Park">Whitewater</option>
+                  <option value="106|Wild River State Park">Wild River</option>
+                  <option value="94|William O'Brien State Park">William O'Brien</option>
+                  <option value="135|Zippel Bay State Park">Zippel Bay</option>
+               </select>
+            </div>
+            <div class="form-group">
+               <label class="simple-field" for="startDate">Start Date:</label>
                <input type="text" id="startDate" name="startDate" placeholder="9/14/2016" value="|startDate|" size="10" />
-            </label>
-            <label class="simple-field"># of nights:
+            </div>
+            <div class="form-group">
+               <label class="simple-field" for="nights"># of nights:</label>
                <input type="number" id="nights" name="nights" placeholder="Number of nights" value="|nights|" min="1" max="14" />
-            </label>
-            <label class="simple-field"># of weeks:
+            </div>
+            <div class="form-group">
+               <label class="simple-field"># of weeks:</label>
                <input type="number" id="week" name="week" placeholder="Number of weeks to check" value="|week|" min="1" max="14" />
-            </label>
-            <input type="submit" value="Fetch" class="btn btn-primary" />
-         </fieldset>
+            </div>
+            <input type="submit" value="Fetch" class="btn" />
          </form>
       </div>
