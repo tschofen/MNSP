@@ -217,6 +217,8 @@ function sendEmail(html, data){
 /*Scheduling jobs*/
 var rule = new schedule.RecurrenceRule();
 if(process.env.SCHEDULED_PARKS && process.env.SCHEDULED_PARKS != ""){
+	var emails = process.env.SCHEDULED_PARKS.split(",");
+	console.log('LOG: Scheduled emails to ' + process.env.EMAIL_RECIPIENT_ADDRESS + ' for ' + emails.length + ' parks');
 	if(process.env.LOCALENV == 'true'){
 		rule.second = 30;
 	} else {
@@ -235,7 +237,6 @@ if(process.env.SCHEDULED_PARKS && process.env.SCHEDULED_PARKS != ""){
 			nights: 2,
 			startDate: (d.getMonth()+1)+'/'+ d.getDate() +'/'+d.getFullYear()
 		}
-		var emails = process.env.SCHEDULED_PARKS.split(",");
 		emails.forEach(function(park){
 			params.park = park;
 			outputEmail(req,res,"", params);
