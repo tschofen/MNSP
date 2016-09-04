@@ -18,12 +18,20 @@ const BASE = 'https://reservations.usedirect.com/MinnesotaWebHome/Accessible/Ava
 
 
 function handleRequest(request, response) {
-	var info = url.parse(request.url, true).query;
-	if(!info.lwt || info.lwt != 'rocksandtrees'){
-		response.writeHead(401);
-		response.end('No access for you');
-		return;
+	var params = url.parse(request.url, true).query;
+
+	/*simple authentication via params*/
+	if(process.env.LOCALENV == 'true'){
+		//just skip over Losungswort
+	} else {
+		if(!params.lwt || params.lwt != process.env.LWT){
+			response.writeHead(401);
+			response.end('No access for you');
+			return;
+		}
 	}
+
+	/*read the form template and process it*/
 	fs.readFile('form.html', function (err, data) {
 			response.writeHead(200, {
 				'Content-Type': 'text/html'
@@ -174,5 +182,5 @@ var server = http.createServer(function(req, res){
 //Lets start our server
 server.listen(process.env.PORT || PORT, function(){
 		//Callback triggered when server is successfully listening. Hurray!
-		console.log("Server listening on: http://localhost:%s", PORT);
+		console.log("Server listening on: http://localhost:%s", process.env.PORT || PORT);
 });
