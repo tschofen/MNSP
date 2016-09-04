@@ -1,4 +1,4 @@
-{  
+{
   "name": "mnsp",
   "version": "0.0.1",
   "private": true,
@@ -11,6 +11,7 @@
   "dependencies": {
     "cheerio": "latest",
     "formidable": "^1.0.17",
+    "nodemailer": "^2.5.0",
     "request": "^2.74.0",
     "request-promise": "^4.1.1"
   }
