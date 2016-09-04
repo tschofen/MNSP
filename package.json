@@ -1,7 +1,20 @@
-{
-	"dependencies": {
-		"cheerio": "latest",
-		"request": "latest",
-		"sqlite3": "latest"
-	}
+{  
+  "name": "mnsp",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node main.js"
+  },
+  "engines": {
+    "node": "5.4.x"
+  },
+  "dependencies": {
+    "cheerio": "latest",
+    "clone": "^1.0.2",
+    "formidable": "^1.0.17",
+    "queue-async": "^1.2.1",
+    "request": "^2.74.0",
+    "request-promise": "^4.1.1",
+    "sqlite3": "latest"
+  }
 }
