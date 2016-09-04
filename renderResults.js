@@ -2,7 +2,7 @@ module.exports = {
   render: function(info, list) {
     var days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 
-    console.log('list in module', info.nights);
+    //console.log('list in module', info.nights);
     var html = "";
     if(list){
       info.toDate = new Date(info.date);

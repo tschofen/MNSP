@@ -6,15 +6,13 @@
     "start": "node main.js"
   },
   "engines": {
-    "node": "5.4.x"
+    "node": "5.4.x",
+    "npm": "3.5.x"
   },
   "dependencies": {
     "cheerio": "latest",
-    "clone": "^1.0.2",
     "formidable": "^1.0.17",
-    "queue-async": "^1.2.1",
     "request": "^2.74.0",
-    "request-promise": "^4.1.1",
-    "sqlite3": "latest"
+    "request-promise": "^4.1.1"
   }
 }

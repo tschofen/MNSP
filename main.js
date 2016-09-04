@@ -6,6 +6,7 @@ var rp = require('request-promise');
 var fs = require('fs');
 var formidable = require("formidable");
 var prep = require('./setData');
+var view = require('./renderResults');
 
 //Lets define a port we want to listen to
 const PORT=8082;
@@ -36,7 +37,6 @@ function handleRequest(request, response) {
 
 //We need a function which handles requests and send response
 function outputData(request, response, html){
-	var view = require('./renderResults');
 	var form = new formidable.IncomingForm();
 	form.parse(request, function (err, fields) {	
 		var cheerio = require('cheerio'); // Basically jQuery for node.js
