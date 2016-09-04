@@ -11,7 +11,7 @@ module.exports = {
       var dateRange = days[info.day] + ' ' + info.date + ' - ' + days[info.toDay] + ' ' + (info.toDate.getMonth()+1)+'/'+ info.toDate.getDate() +'/'+info.toDate.getFullYear();
       if(list.length > 0){
         var url = info.uri || info.uri.href;
-        html = '<h3><a target="_blank" href="'+ url +'">' + dateRange + ' — <span class="badge badge-primary">' + list.length +'</span> available sites</a></h3>';
+        html = '<h3><a target="_blank" href="'+ url +'">' + dateRange + ' — <span class="badge badge-primary">' + list.length +'</span>&nbsp;available&nbsp;sites</a></h3>';
         html += '<ul class="list list-inline">';
 
         list.forEach(function(item){
@@ -20,12 +20,12 @@ module.exports = {
 
         html += '</ul>';
       } else {
-        html = '<h3 class="nix">' + dateRange + ' — <span class="badge">0</span> sites</h3>';
+        html = '<h3 class="nix">' + dateRange + ' — <span class="badge">0</span>&nbsp;sites</h3>';
       }
     } else {
         //error
         if(days[info.day]){
-          html = '<h3 class="error">' + days[info.day] + ' ' + info.date + ' - no response</h3>';
+          html = '<h3 class="error">' + days[info.day] + ' ' + info.date + ' -&nbsp;no&nbsp;response</h3>';
         } else {
           html = '<h3 class="error">Check your start date</h3>';
         }
