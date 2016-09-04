@@ -6,8 +6,7 @@
     "start": "node main.js"
   },
   "engines": {
-    "node": "5.4.x",
-    "npm": "3.5.x"
+    "node": "5.4.x"
   },
   "dependencies": {
     "cheerio": "latest",
