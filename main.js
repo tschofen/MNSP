@@ -223,7 +223,7 @@ if(process.env.SCHEDULED_PARKS && process.env.SCHEDULED_PARKS != ""){
 	if(process.env.LOCALENV == 'true'){
 		rule.second = 30;
 	} else {
-		rule.hour = 0; //midnight
+		rule.hour = 5; //in the morning
 	}
 	schedule.scheduleJob(rule, function(){
 		var req, res;
@@ -256,7 +256,7 @@ var server = http.createServer(function(req, res){
 	if (action === '/') {
 		handleRequest(req,res);
 	} else {
-		console.log('filt', path.join(__dirname, action).split('%20').join(' '))
+		//console.log('filt', path.join(__dirname, action).split('%20').join(' '))
 		var filePath = path.join(__dirname, action).split('%20').join(' ');
 		fs.exists(filePath, function (exists) {
 			if (!exists) {
