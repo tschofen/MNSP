@@ -219,7 +219,7 @@ function sendEmail(html, data){
 var rule = new schedule.RecurrenceRule();
 if(process.env.SCHEDULED_PARKS && process.env.SCHEDULED_PARKS != ""){
 	var emails = process.env.SCHEDULED_PARKS.split(",");
-	console.log('LOG: Scheduled emails to ' + process.env.EMAIL_RECIPIENT_ADDRESS + ' for ' + emails.length + ' parks');
+	console.log('LOG: Scheduled emails to ' + process.env.EMAIL_RECIPIENT_ADDRESS + ' for ' + emails.length + ' parks' + new Date());
 	if(process.env.LOCALENV == 'true'){
 		rule.second = 30;
 	} else {
@@ -273,7 +273,6 @@ var server = http.createServer(function(req, res){
 			} else if (ext === '.png') {
 				 contentType = 'image/png'
 			}
-			console.log('type', contentType)
 			res.writeHead(200, {'Content-Type': contentType });
 			// stream the file
 			//fs.createReadStream(filePath, 'utf-8').pipe(res);
@@ -298,5 +297,5 @@ var server = http.createServer(function(req, res){
 //Lets start our server
 server.listen(process.env.PORT || PORT, function(){
 		//Callback triggered when server is successfully listening. Hurray!
-		console.log("Server listening on: http://localhost:%s", process.env.PORT || PORT);
+		console.log("Server listening on: http://localhost:%s -- %s", process.env.PORT || PORT, new Date());
 });
