@@ -43,14 +43,20 @@ function handleRequest(request, response) {
 			var html = "";
 
 			if (request.method.toLowerCase() == 'post'){
+				//standard form submit -- could be changed to a get call
 				html += data; //pass in the empty form again
 				//form was submitted so get the result data and output after the async scrape call
 				outputData(request, response, html);
 			} else if(request.method.toLowerCase() == 'get' && (params.startDate || params. startdate)){
+				//send email with passed in parameters
 				html += data; //pass in the empty form again
 				outputEmail(request, response, html, params);
-				//response.end('Blastomated');
+			} else if(request.method.toLowerCase() == 'get' && params.blastor == "rxatrawr"){
+				//trigger emails from an external service -- see Zapier.com
+				triggerEmails(request, response);
+				console.log('LOG: triggered emails -- ' + new Date());
 			} else {
+				//display the form
 				html += prep.set(data);
 				//output the form without any results
 				response.write(html)
@@ -61,6 +67,26 @@ function handleRequest(request, response) {
 
 function outputEmail(request, response, html, fields){
 	processData(request, response, html, fields, 'email');
+}
+
+function triggerEmails(req, res){
+	var emails = process.env.SCHEDULED_PARKS.split(",");
+	var d = new Date();
+	if(d.getDay() < 5){
+		d.setDate(d.getDate() + (5 - d.getDay()));
+	} else if(d.getDay() > 5){
+		d.setDate(d.getDate() + 6);
+	}
+	var parameters = {
+		week: process.env.EMAIL_WEEKS,
+		nights: process.env.EMAIL_DAYS,
+		startDate: (d.getMonth()+1)+'/'+ d.getDate() +'/'+d.getFullYear()
+	}
+	emails.forEach(function(park){
+		parameters.park = park;
+		outputEmail(req,res,"", parameters);
+	})
+
 }
 
 //We need a function which handles requests and send response
@@ -215,35 +241,25 @@ function sendEmail(html, data){
 	});
 }
 
-/*Scheduling jobs*/
-var rule = new schedule.RecurrenceRule();
+/**
+ * Scheduling doesn't work on Heroku unless the process is awake (it turns of after 30 minutes of no use -- for free Heroku accounts)
+ * Instead, triggering it with Zapier.com via https://mnsp.herokuapp.com/?lwt=rocksandtrees&blastor
+ */
+
+/*var rule = new schedule.RecurrenceRule();
 if(process.env.SCHEDULED_PARKS && process.env.SCHEDULED_PARKS != ""){
 	var emails = process.env.SCHEDULED_PARKS.split(",");
-	console.log('LOG: Scheduled emails to ' + process.env.EMAIL_RECIPIENT_ADDRESS + ' for ' + emails.length + ' parks' + new Date());
+	console.log('LOG: Scheduled emails to ' + process.env.EMAIL_RECIPIENT_ADDRESS + ' for ' + emails.length + ' parks -- ' + new Date());
 	if(process.env.LOCALENV == 'true'){
 		rule.second = 30;
 	} else {
 		rule.hour = 5; //in the morning
 	}
+	var req, res;
 	schedule.scheduleJob(rule, function(){
-		var req, res;
-		var d = new Date();
-		if(d.getDay() < 5){
-			d.setDate(d.getDate() + (5 - d.getDay()));
-		} else if(d.getDay() > 5){
-			d.setDate(d.getDate() + 6);
-		}
-		var params = {
-			week: 4,
-			nights: 2,
-			startDate: (d.getMonth()+1)+'/'+ d.getDate() +'/'+d.getFullYear()
-		}
-		emails.forEach(function(park){
-			params.park = park;
-			outputEmail(req,res,"", params);
-		})
+		triggerEmails(req, res);
 	});
-}
+}*/
 
 
 
