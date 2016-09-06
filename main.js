@@ -71,6 +71,13 @@ function outputEmail(request, response, html, fields){
 
 function triggerEmails(req, res){
 	var emails = process.env.SCHEDULED_PARKS.split(",");
+
+	//TODO: add ability to return requests for just a few months
+	//      or pass parameter of the month to start?
+	//      -- intent is to 
+	//      a) not do this in months that don't matter, e.g. over the winter
+	//      b) do it several months out instead of starting with the next Friday
+	
 	var d = new Date();
 	if(d.getDay() < 5){
 		d.setDate(d.getDate() + (5 - d.getDay()));
