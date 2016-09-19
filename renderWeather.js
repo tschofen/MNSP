@@ -18,7 +18,7 @@ module.exports = {
       console.log('diff-before', diff)
       diff +=1;
     }
-    console.log('diff', diff)
+    console.log('diff', diff, 'env', process.env.LOCALENV)
 
     //only have access to 10 days
     var dayCount = diff + options.nights + 1
