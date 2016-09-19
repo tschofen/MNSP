@@ -14,11 +14,10 @@ module.exports = {
     var diff =  Math.floor((new Date(options.date) - d ) / 86400000);
 
     //FIXME: Time zone issues
-    if(!process.env.LOCALENV){
-      console.log('diff-before', diff)
+    if(process.env.LOCALENV == 'false'){
       diff +=1;
     }
-    console.log('diff', diff, 'env', process.env.LOCALENV)
+    //console.log('diff', diff, 'env', process.env.LOCALENV)
 
     //only have access to 10 days
     var dayCount = diff + options.nights + 1
