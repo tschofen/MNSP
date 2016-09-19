@@ -11,16 +11,21 @@ module.exports = {
     //which days to output
     var d = new Date();
     d.setHours(0,0,0,0);
-    var diff =  Math.floor((new Date(options.date) - d ) / 86400000) + 1;
+    var diff =  Math.floor((new Date(options.date) - d ) / 86400000);
+
+    //FIXME: Time zone issues
+    if(!process.env.LOCALENV){
+      diff +=1;
+    }
     //console.log('diff', diff)
 
     //only have access to 10 days
     var dayCount = diff + options.nights + 1
     if(forecast && dayCount <= 10){
       //get date of forcast
-      var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
-      d.setUTCSeconds(forecast.simpleforecast.forecastday[0].date.epoch);
-      console.log('epoch', d, diff, Date.parse(options.date), options.date, new Date(options.date), forecast.simpleforecast.forecastday[0].date.epoch, forecast.simpleforecast.forecastday[0].date.pretty)
+      //var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
+      //d.setUTCSeconds(forecast.simpleforecast.forecastday[0].date.epoch);
+      //console.log('epoch', d, diff, Date.parse(options.date), options.date, new Date(options.date), forecast.simpleforecast.forecastday[0].date.epoch, forecast.simpleforecast.forecastday[0].date.pretty)
       html += "<table class='table'>";
       html += "<thead><tr><th colspan='2'>Silver Bay</th><th>Precip</th><th>Temp</th><th>Wind</th><th>Humidity</th><th>Dew Point</th></tr></thead>"
       for (var i = diff; i < dayCount; i++) {
