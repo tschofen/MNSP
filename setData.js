@@ -27,9 +27,32 @@ module.exports = {
   },
 
   setResults: function(data, results){
-    if(results){
-      return data.replace(/<!-- RESULTS -->/g, results);
+    var keys = [],
+      k, i, len
+
+    //combine array of results into one object so we can sort it
+    var resultObject = results.reduce(function(result, currentObject) {
+      for(var key in currentObject) {
+        if (currentObject.hasOwnProperty(key)) {
+          result[key] = currentObject[key];
+        }
+      }
+      return result;
+    }, {});
+
+    keys = Object.keys(resultObject)
+    keys.sort();
+
+    results = [];
+    for (i = 0; i < keys.length; i++) {
+      k = keys[i];
+      results.push(resultObject[k])
     }
+
+    if(results.length > 0){
+      return data.replace(/<!-- RESULTS -->/g, results.join(""));
+    }
+
     return data;
   }
 }

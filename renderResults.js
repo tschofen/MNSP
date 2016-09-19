@@ -30,6 +30,8 @@ module.exports = {
           html = '<h3 class="error">Check your start date</h3>';
         }
     }
-    return html;
+    var d = new Date(info.date);
+
+    return {[d.getTime()] : html};
   }
 }

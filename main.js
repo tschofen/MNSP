@@ -10,6 +10,7 @@ var schedule = require('node-schedule');
 var path = require('path');
 var prep = require('./setData');
 var view = require('./renderResults');
+var weather = require('./renderWeather');
 
 const url = require('url');
 
@@ -142,12 +143,26 @@ function processData(request, response, html, fields, mode){
 			loc: fields.park.split("|")[1],
 			date: fields.startDate,
 			day: d.getDay(),
-			nights: Number(fields.nights)
+			nights: Number(fields.nights), 
+			type: 'camp'
 	};
 	//url params are getting clobbert
 	options.exturl = options.uri;
 
 	var urls = [Object.assign({}, options)];
+	if(options.loc == "Split Rock Lighthouse State Park" || options.loc == "Tettegouche State Park"){
+		urls.push(rp({
+			type: 'weather', 
+			uri: "http://api.wunderground.com/api/409828dd3c1f669a/forecast10day/q/MN/Silver_bay.json", 
+			headers:{'User-Agent': 'request'},
+			date: options.date,
+			nights: options.nights,
+			transform: function (body) {
+				//console.log('^^^^^^^^^^', body)
+				return body;
+			}
+		}))
+	}
 
 	//no need to process if only 1
 	for (var i = fields.week - 1; i > 0; i--) {
@@ -160,8 +175,24 @@ function processData(request, response, html, fields, mode){
 		options.exturl = options.uri;
 		//clone the object
 		urls.push(rp(Object.assign({}, options)));
+		if(options.loc == "Split Rock Lighthouse State Park" || options.loc == "Tettegouche State Park"){
+			urls.push(rp({
+				type: 'weather', 
+				uri: "http://api.wunderground.com/api/409828dd3c1f669a/forecast10day/q/MN/Silver_bay.json", 
+				headers:{'User-Agent': 'request'},
+				date: options.date,
+				nights: options.nights,
+				transform: function (body) {
+					//console.log('^^^^^^^^^^', body)
+					return body;
+				}
+			}))
+		}
+
 	}
-	// console.log('options', urls);
+	urls.forEach(function(item){
+		//console.log('*************options', item);
+	})
 
 
 	/*now loop through all the urls and get the data*/
@@ -172,22 +203,27 @@ function processData(request, response, html, fields, mode){
 		rp(options)
 		.then(function ($) {
 			var list = [];
-			//console.log($.html());
-			$('.UnitresultDiv').find('div > a').each(function (index, element) {
-				list.push($(element).text());
-			});
-			listings.push(view.render(options, list));
+			if(options.type === 'weather'){
+				listings.push(weather.render($, options))
+			} else {
+				//console.log($.html());
+				//console.log('************', options)
+				$('.UnitresultDiv').find('div > a').each(function (index, element) {
+					list.push($(element).text());
+				});
+				listings.push(view.render(options, list));
+			}
 			callback(options);
 		})
 		.catch(function (err) {
 			// Crawling failed or Cheerio choked...
-			console.log('trouble', err.name, err.statusCode); //full text: err.error
+			console.log('trouble', err.name, err.statusCode, err); //full text: err.error
 			var os = {loc: options.loc, day: options.day, date: options.date};
 			listings.push(view.render(os));
 			results.push({}); //results don't increase without this. Not sure why
 			//console.log('results count', results.length);
 			if(results.length == urls.length){
-				html = prep.setResults(html, listings.join(""));
+				html = prep.setResults(html, listings);
 				if(mode != 'email'){
 					response.write(html);
 				}
@@ -196,7 +232,8 @@ function processData(request, response, html, fields, mode){
 	}
 	function final() { 
 		console.log('Done', results.length);
-		html = prep.setResults(html, listings.join(""));
+
+		html = prep.setResults(html, listings);
 		if(mode == 'email'){
 			sendEmail(html, options);
 			console.log('email send');
