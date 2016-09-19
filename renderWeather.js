@@ -12,10 +12,9 @@ module.exports = {
     var diff =  Math.floor((Date.parse(options.date) - new Date() ) / 86400000) + 1;
     //console.log('diff', diff)
 
-
     //only have access to 10 days
     var dayCount = diff + options.nights
-    if(dayCount <= 10){
+    if(forecast && dayCount <= 10){
       html += "<table class='table'>";
       html += "<thead><tr><th colspan='2'>Silver Bay</th><th>Temp</th><th>Precip</th><th>Wind</th><th>Humidity</th><th>Dew Point</th></tr></thead>"
       for (var i = diff; i < dayCount; i++) {

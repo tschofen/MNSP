@@ -153,7 +153,7 @@ function processData(request, response, html, fields, mode){
 	if(options.loc == "Split Rock Lighthouse State Park" || options.loc == "Tettegouche State Park"){
 		urls.push(rp({
 			type: 'weather', 
-			uri: "http://api.wunderground.com/api/409828dd3c1f669a/forecast10day/q/MN/Silver_bay.json", 
+			uri: "http://api.wunderground.com/api/"+ process.env.WEATHER_KEY +"/forecast10day/q/MN/Silver_bay.json", 
 			headers:{'User-Agent': 'request'},
 			date: options.date,
 			nights: options.nights,
@@ -178,7 +178,7 @@ function processData(request, response, html, fields, mode){
 		if(options.loc == "Split Rock Lighthouse State Park" || options.loc == "Tettegouche State Park"){
 			urls.push(rp({
 				type: 'weather', 
-				uri: "http://api.wunderground.com/api/409828dd3c1f669a/forecast10day/q/MN/Silver_bay.json", 
+				uri: "http://api.wunderground.com/api/"+ process.env.WEATHER_KEY +"/forecast10day/q/MN/Silver_bay.json", 
 				headers:{'User-Agent': 'request'},
 				date: options.date,
 				nights: options.nights,
