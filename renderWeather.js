@@ -5,7 +5,7 @@ module.exports = {
     var forecast = JSON.parse(info);
     forecast = forecast.forecast;
 
-    //console.log('weather', forecast);
+    //console.log('weather', info);
     //console.log('options', options.date, options.nights)
 
     //which days to output
@@ -13,17 +13,21 @@ module.exports = {
     //console.log('diff', diff)
 
     //only have access to 10 days
-    var dayCount = diff + options.nights
+    var dayCount = diff + options.nights + 1
     if(forecast && dayCount <= 10){
+      //get date of forcast
+      var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
+      d.setUTCSeconds(forecast.simpleforecast.forecastday[0].date.epoch);
+      console.log('epoch', d, diff, Date.parse(options.date), options.date, new Date(options.date), forecast.simpleforecast.forecastday[0].date.epoch, forecast.simpleforecast.forecastday[0].date.pretty)
       html += "<table class='table'>";
-      html += "<thead><tr><th colspan='2'>Silver Bay</th><th>Temp</th><th>Precip</th><th>Wind</th><th>Humidity</th><th>Dew Point</th></tr></thead>"
+      html += "<thead><tr><th colspan='2'>Silver Bay</th><th>Precip</th><th>Temp</th><th>Wind</th><th>Humidity</th><th>Dew Point</th></tr></thead>"
       for (var i = diff; i < dayCount; i++) {
         var dt = forecast.simpleforecast.forecastday[i]
         html += '<tr>'
         html += '<th><strong>' + dt.date.weekday_short + ' ' + dt.date.month + '/' + dt.date.day + '</strong></th>'
         html += '<td><img width="25" height="25" src="' + dt.icon_url + '"> ' + dt.conditions + '</td>'
-        html += '<td>' + dt.high.fahrenheit + '°/' + dt.low.fahrenheit + '°</td>'
         html += '<td>' + dt.pop + '%' + '</td>'
+        html += '<td>' + dt.high.fahrenheit + '°/' + dt.low.fahrenheit + '°</td>'
         html += '<td>' + dt.avewind.dir + ' ' + dt.avewind.mph +  '-' + dt.maxwind.mph + 'mph</td>'
         html += '<td>' + dt.avehumidity + '%</td>'
         html += '<td>' + (Number(dt.high.fahrenheit) - ((100 - Number(dt.avehumidity))/5)) + '°</td>'
