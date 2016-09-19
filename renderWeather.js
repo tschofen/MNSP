@@ -9,7 +9,9 @@ module.exports = {
     //console.log('options', options.date, options.nights)
 
     //which days to output
-    var diff =  Math.floor((new Date(options.date) - new Date() ) / 86400000) + 1;
+    var d = new Date();
+    d.setHours(0,0,0,0);
+    var diff =  Math.floor((new Date(options.date) - d ) / 86400000) + 1;
     //console.log('diff', diff)
 
     //only have access to 10 days
