@@ -15,9 +15,10 @@ module.exports = {
 
     //FIXME: Time zone issues
     if(!process.env.LOCALENV){
+      console.log('diff-before', diff)
       diff +=1;
     }
-    //console.log('diff', diff)
+    console.log('diff', diff)
 
     //only have access to 10 days
     var dayCount = diff + options.nights + 1
