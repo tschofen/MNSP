@@ -24,7 +24,7 @@ var params;
 
 function handleRequest(request, response) {
 	params = url.parse(request.url, true).query;
-console.log('paramps', params)
+
 	/*simple authentication via params*/
 	if(process.env.LOCALENV == 'true'){
 		//just skip over Losungswort
@@ -84,7 +84,8 @@ function triggerEmails(req, res, params){
 	//Mar 12, 2017
 	//check if start parameter specifise the number of days out to start the search
 	//just used via emails right now and ignores startDate
-	if(params.start & params.start > 0){
+	console.log('statrr', (params.start & (+params.start) > 0));
+	if(params.start & (+params.start) > 0){
 		d.setDate(d.getDate() + (+params.start));
 	} else {
 		if(d.getDay() < 5){
@@ -93,7 +94,7 @@ function triggerEmails(req, res, params){
 			d.setDate(d.getDate() + 6);
 		}
 	}
-
+console.log('datata', d);
 	var parameters = {
 		week: process.env.EMAIL_WEEKS,
 		nights: process.env.EMAIL_DAYS,
