@@ -24,7 +24,7 @@ var params;
 
 function handleRequest(request, response) {
 	params = url.parse(request.url, true).query;
-
+console.log('paramps', params)
 	/*simple authentication via params*/
 	if(process.env.LOCALENV == 'true'){
 		//just skip over Losungswort
