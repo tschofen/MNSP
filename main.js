@@ -54,7 +54,7 @@ function handleRequest(request, response) {
 				outputEmail(request, response, html, params);
 			} else if(request.method.toLowerCase() == 'get' && params.blastor == "rxatrawr"){
 				//trigger emails from an external service -- see Zapier.com
-				triggerEmails(request, response);
+				triggerEmails(request, response, params);
 				console.log('LOG: triggered emails -- ' + new Date());
 			} else {
 				//display the form
@@ -70,7 +70,7 @@ function outputEmail(request, response, html, fields){
 	processData(request, response, html, fields, 'email');
 }
 
-function triggerEmails(req, res){
+function triggerEmails(req, res, params){
 	var emails = process.env.SCHEDULED_PARKS.split(",");
 
 	//TODO: add ability to return requests for just a few months
@@ -78,13 +78,22 @@ function triggerEmails(req, res){
 	//      -- intent is to 
 	//      a) not do this in months that don't matter, e.g. over the winter
 	//      b) do it several months out instead of starting with the next Friday
+	//      -- just implemented via 'start' parameter which is number of days out -- Mar 12, 2017
 	
 	var d = new Date();
-	if(d.getDay() < 5){
-		d.setDate(d.getDate() + (5 - d.getDay()));
-	} else if(d.getDay() > 5){
-		d.setDate(d.getDate() + 6);
+	//Mar 12, 2017
+	//check if start parameter specifise the number of days out to start the search
+	//just used via emails right now and ignores startDate
+	if(params.start & params.start > 0){
+		d.setDate(d.getDate() + (+params.start));
+	} else {
+		if(d.getDay() < 5){
+			d.setDate(d.getDate() + (5 - d.getDay()));
+		} else if(d.getDay() > 5){
+			d.setDate(d.getDate() + 6);
+		}
 	}
+
 	var parameters = {
 		week: process.env.EMAIL_WEEKS,
 		nights: process.env.EMAIL_DAYS,
