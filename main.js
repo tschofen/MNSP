@@ -84,7 +84,7 @@ function triggerEmails(req, res, params){
 	//Mar 12, 2017
 	//check if start parameter specifise the number of days out to start the search
 	//just used via emails right now and ignores startDate
-	console.log('statrr', (params.start & (+params.start) > 0));
+	console.log('statrr', params.start, (params.start & (+params.start) > 0));
 	if(params.start & (+params.start) > 0){
 		d.setDate(d.getDate() + (+params.start));
 	} else {
